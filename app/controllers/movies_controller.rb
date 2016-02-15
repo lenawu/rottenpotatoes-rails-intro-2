@@ -14,7 +14,7 @@ class MoviesController < ApplicationController
     if params[:movie_title]
 	@movies = Movie.all.sort_by(&:title)
     elsif params[:release_date]
-	@movies = Movie.all_sort_by(&:release_date)
+	@movies = Movie.all.sort_by(&:release_date)
     else
     	@movies = Movie.all
     end
