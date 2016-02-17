@@ -40,6 +40,7 @@ class MoviesController < ApplicationController
   end 
 
   def new
+    session.clear
     # default: render 'new' template
   end
 
