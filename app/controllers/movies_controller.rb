@@ -12,13 +12,14 @@ class MoviesController < ApplicationController
 
   def index    
     #handles if a sort is needed and keep track of session
-    sort_req = params[:sort] || session[:sort] 
-    case sort_req
-    when 'title_sort'
-      sort_type, @title_header = {:title_sort => :asc}, 'hilite' 
-    when 'release_date_sort'
-      sort_type, @date_header = {:release_date_sort => :asc}, 'hilite' 
+    sort = params[:sort] || session[:sort]
+    case sort
+    when 'title'
+      ordering,@title_header = {:title => :asc}, 'hilite'
+    when 'release_date'
+      ordering,@date_header = {:release_date => :asc}, 'hilite'
     end
+
     #get possible ratings and list of ratings selected
     @all_ratings = Movie.all_ratings
     @ratings_list = params[:ratings] || session[:ratings] || {}
@@ -31,11 +32,11 @@ class MoviesController < ApplicationController
     end
     #otherwise, see what needs to be kept and changed with sort and ratings
     if params[:sort] != session[:sort] or params[:ratings] != session[:ratings]
-      session[:sort] = sort_req
+      session[:sort] = sort
       session[:ratings] = @ratings_list
-      redirect_to :sort => sort_req, :ratings => @ratings_list and return
+      redirect_to :sort => sort, :ratings => @ratings_list and return
     end
-    @movies = Movie.where(rating: @ratings_list.keys).order(sort_type)
+    @movies = Movie.where(rating: @ratings_list.keys).order(ordering)
   end 
 
   def new
