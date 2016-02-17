@@ -15,9 +15,11 @@ class MoviesController < ApplicationController
     sort = params[:sort] || session[:sort]
     case sort
     when 'title'
-      sorting, @title_header = {:title => :asc}, 'hilite'
+      sorting = {:title => :asc}
+      @title_header = 'hilite'
     when 'release_date'
-      sorting, @date_header = {:release_date => :asc}, 'hilite'
+      sorting = {:release_date => :asc}
+      @date_header = 'hilite'
     end
 
     #get possible ratings and list of ratings selected
@@ -40,7 +42,6 @@ class MoviesController < ApplicationController
   end 
 
   def new
-    session.clear
     # default: render 'new' template
   end
 
