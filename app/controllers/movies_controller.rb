@@ -11,27 +11,36 @@ class MoviesController < ApplicationController
   end
 
   def index
-
-    sort = params[:sort] || session[:sort]
-    case sort
-    when 'title'
-      ordering,@title_header = {:title => :asc}, 'hilite'
-    when 'release_date'
-      ordering,@date_header = {:release_date => :asc}, 'hilite'
+ 
+    #handles if a sort is needed and keep track of session
+    sort_req = session[:sort] || params[:sort] 
+    case sort_req
+    when 'title_sort'
+      sort_type = {:title => :asc}
+      @title_header = 'hilite' 
+    when 'release_date_sort'
+      sort_type = {:release_date => :asc}
+      @date_header = 'hilite' 
     end
+    #get possible ratings and list of ratings selected
     @all_ratings = Movie.all_ratings
-    @ratings_list = params[:ratings] || session[:ratings] || {}
-    
+    @ratings_list = session[:ratings] || params[:ratings] || {} 
+    #handle case where ratings are empty
     if @ratings_list == {}
       @ratings_list = Hash[@all_ratings.map {|rating| [rating, rating]}]
     end
-    
-    if params[:sort] != session[:sort] or params[:ratings] != session[:ratings]
-      session[:sort] = sort
-      session[:ratings] = @ratings_list
-      redirect_to :sort => sort, :ratings => @ratings_list and return
+    #otherwise, see what needs to be kept and changed with sort and ratings
+    if session[:sort] != params[:sort]
+	session[:sort] = sort_req
+	redirect_to :sort => sort_req
+	return
     end
-    @movies = Movie.where(rating: @ratings_list.keys).order(ordering)
+    if session[:ratings] != params[:ratings]
+	session[:ratings] = @ratings_list
+	redirect_to :ratings => @ratings_list
+	return 
+    end 
+    @movies = Movie.where(rating: @ratings_list.keys).order(sort_type)
   end 
 
   def new
