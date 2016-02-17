@@ -25,10 +25,9 @@ class MoviesController < ApplicationController
     @ratings_list = params[:ratings] || session[:ratings] || {}
     #handle case where ratings are empty
     if @ratings_list == {}
-	@ratings_list = Hash[@all_ratings.map {|rating| [rating, rating]}]
-#	for rating in @all_ratings
-#		@ratings_list[:rating] = rating	
-#	end   
+	for rating in @all_ratings
+		@ratings_list[:rating] = rating	
+	end   
     end
     #otherwise, see what needs to be kept and changed with sort and ratings
     if params[:sort] != session[:sort] or params[:ratings] != session[:ratings]
