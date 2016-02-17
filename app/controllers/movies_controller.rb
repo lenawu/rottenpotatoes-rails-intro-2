@@ -12,7 +12,7 @@ class MoviesController < ApplicationController
 
   def index
     #handles if a sort is needed and keep track of session
-    sort_req = session[:sort] || params[:sort] 
+    sort_req = params[:sort] || session[:sort] 
     case sort_req
     when 'title_sort'
       sort_type = {:title_sort => :asc}
@@ -24,7 +24,7 @@ class MoviesController < ApplicationController
     #get possible ratings and list of ratings selected
     @all_ratings = Movie.all_ratings
 
-    @ratings_list = session[:ratings] || params[:ratings] || {} 
+    @ratings_list = params[:ratings] || session[:ratings] || {}
     #handle case where ratings are empty
     if @ratings_list == {}
       @ratings_list = Hash[@all_ratings.map {|rating| [rating, rating]}]
