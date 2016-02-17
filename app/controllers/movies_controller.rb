@@ -10,7 +10,9 @@ class MoviesController < ApplicationController
     # will render app/views/movies/show.<extension> by default
   end
 
-  def index    
+  def index  
+    if session[:first_time].nil?
+	session.clear  
     #handles if a sort is needed and keep track of session
     sort = params[:sort] || session[:sort]
     case sort
