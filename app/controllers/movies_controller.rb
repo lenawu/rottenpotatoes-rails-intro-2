@@ -11,6 +11,7 @@ class MoviesController < ApplicationController
   end
 
   def index   
+    session.clear
     #handles if a sort is needed and keep track of session
     sort_req = params[:sort] || session[:sort] 
     case sort_req
@@ -33,8 +34,7 @@ class MoviesController < ApplicationController
     if params[:sort] != session[:sort] or params[:ratings] != session[:ratings]
       session[:sort] = sort_req
       session[:ratings] = @ratings_list
-      redirect_to :sort => sort_req, :ratings => @ratings_list
-      return
+      redirect_to :sort => sort_req, :ratings => @ratings_list and return
     end
     @movies = Movie.where(rating: @ratings_list.keys).order(sort_type)
   end 
