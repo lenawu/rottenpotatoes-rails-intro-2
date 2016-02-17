@@ -16,10 +16,10 @@ class MoviesController < ApplicationController
     sort_req = session[:sort] || params[:sort] 
     case sort_req
     when 'title_sort'
-      sort_type = {:title => :asc}
+      sort_type = {:title_sort => :asc}
       @title_header = 'hilite' 
     when 'release_date_sort'
-      sort_type = {:release_date => :asc}
+      sort_type = {:release_date_sort => :asc}
       @date_header = 'hilite' 
     end
     #get possible ratings and list of ratings selected
