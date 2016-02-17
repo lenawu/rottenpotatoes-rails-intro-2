@@ -15,9 +15,9 @@ class MoviesController < ApplicationController
     sort = params[:sort] || session[:sort]
     case sort
     when 'title'
-      ordering,@title_header = {:title => :asc}, 'hilite'
+      sorting, @title_header = {:title => :asc}, 'hilite'
     when 'release_date'
-      ordering,@date_header = {:release_date => :asc}, 'hilite'
+      sorting, @date_header = {:release_date => :asc}, 'hilite'
     end
 
     #get possible ratings and list of ratings selected
@@ -33,9 +33,10 @@ class MoviesController < ApplicationController
     if params[:sort] != session[:sort] or params[:ratings] != session[:ratings]
       session[:sort] = sort
       session[:ratings] = @ratings_list
-      redirect_to :sort => sort, :ratings => @ratings_list and return
+      redirect_to :sort => sort, :ratings => @ratings_list
+      return
     end
-    @movies = Movie.where(rating: @ratings_list.keys).order(ordering)
+    @movies = Movie.where(rating: @ratings_list.keys).order(sorting)
   end 
 
   def new
