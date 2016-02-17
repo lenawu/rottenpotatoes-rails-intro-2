@@ -15,11 +15,9 @@ class MoviesController < ApplicationController
     sort_req = params[:sort] || session[:sort] 
     case sort_req
     when 'title_sort'
-      sort_type = {:title_sort => :asc}
-      @title_header = 'hilite' 
+      sort_type, @title_header = {:title_sort => :asc}, 'hilite' 
     when 'release_date_sort'
-      sort_type = {:release_date_sort => :asc}
-      @date_header = 'hilite' 
+      sort_type, @date_header = {:release_date_sort => :asc}, 'hilite' 
     end
     #get possible ratings and list of ratings selected
     @all_ratings = Movie.all_ratings
@@ -29,7 +27,6 @@ class MoviesController < ApplicationController
 	for rating in @all_ratings
 		@ratings_list[:rating] = rating	
 	end   
-#   @ratings_list = Hash[@all_ratings.map {|rating| [rating, rating]}]
     end
     #otherwise, see what needs to be kept and changed with sort and ratings
     if params[:sort] != session[:sort] or params[:ratings] != session[:ratings]
