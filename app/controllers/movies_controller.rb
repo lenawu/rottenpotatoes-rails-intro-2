@@ -1,7 +1,6 @@
 class MoviesController < ApplicationController
 
-  def movie_params
-    session.reset
+  def movie_params 
     params.require(:movie).permit(:title, :rating, :description, :release_date)
   end
 
