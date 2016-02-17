@@ -24,6 +24,7 @@ class MoviesController < ApplicationController
     end
     #get possible ratings and list of ratings selected
     @all_ratings = Movie.all_ratings
+
     @ratings_list = session[:ratings] || params[:ratings] || {} 
     #handle case where ratings are empty
     if @ratings_list == {}
