@@ -12,7 +12,8 @@ class MoviesController < ApplicationController
 
   def index  
     if session[:first_time].nil?
-	session.clear  
+	session.clear
+    end  
     #handles if a sort is needed and keep track of session
     sort = params[:sort] || session[:sort]
     case sort
