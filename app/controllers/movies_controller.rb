@@ -11,7 +11,7 @@ class MoviesController < ApplicationController
   end
 
   def index
- 
+    session.clear 
     #handles if a sort is needed and keep track of session
     sort_req = session[:sort] || params[:sort] 
     case sort_req
