@@ -30,10 +30,10 @@ class MoviesController < ApplicationController
       @ratings_list = Hash[@all_ratings.map {|rating| [rating, rating]}]
     end
     #otherwise, see what needs to be kept and changed with sort and ratings
-    if session[:sort] != params[:sort] or session[:ratings] != params[:ratings]
-	session[:sort] = sort_req
-	session[:ratings] = @ratings_list
-	redirect_to :sort => sort_req, :ratings => @ratings_list and return
+    if params[:sort] != session[:sort] or params[:ratings] != session[:ratings]
+      session[:sort] = sort
+      session[:ratings] = @ratings_list
+      redirect_to :sort => sort, :ratings => @ratings_list and return
     end
     @movies = Movie.where(rating: @ratings_list.keys).order(sort_type)
   end 
